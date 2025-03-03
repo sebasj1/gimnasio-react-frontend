@@ -1,0 +1,810 @@
+/* Importa la fuente "Poppins" desde Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+/* Definición de Colores en variables CSS :root */
+:root {
+  --primary-color: #111317;
+  --primary-color-light: #1f2125;
+  --primary-color-extra-light: #35373b;
+  --secondary-color: #d8141b;
+  --secondary-color-dark: #be1422;
+  --text-light: #d1d5db;
+  --white: #ffffff;
+  --max-width: 1200px; /* Anchura máxima */
+}
+
+/* Estilos globales para padding, margin y box-sizing */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* Contenedor de secciones */
+.section__container {
+  max-width: var(--max-width);
+  margin: auto;
+  padding: 5rem 1rem;
+}
+
+/* Encabezado de sección */
+.section__header {
+  margin-bottom: 1rem;
+  font-size: 2.25rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--white);
+}
+/* Subtitulo de sección */
+.section__subheader {
+  max-width: 600px;
+  margin: auto;
+  text-align: center;
+  color: var(--text-light);
+}
+
+/* Botón */
+.btn {
+  font-family: "Poppins", sans-serif;
+  padding: 1rem 2rem;
+  outline: none;
+  border: none;
+  font-size: 1rem;
+  color: var(--white);
+  background-color: var(--secondary-color);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+.btn:hover {
+  background-color: var(--secondary-color-dark);
+}
+.btn_min {
+  font-size: 15px;
+  padding: 10px;
+  margin-left: 15px;
+}
+a.btn.price__btn {
+  color: var(--white);
+}
+
+/* Estilos de imágenes */
+img {
+  width: 100%;
+  display: flex;
+}
+
+/* Estilos de enlaces */
+a {
+  text-decoration: none;
+}
+
+/* Estilos de fondo borroso */
+.bg__blur {
+  position: absolute;
+  box-shadow: 0 0 1000px 50px var(--secondary-color);
+  z-index: -1;
+}
+
+/* Estilos de body */
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: var(--primary-color);
+  margin-bottom: 4rem;
+}
+
+/* Estilos de la navegación */
+nav {
+  max-width: var(--max-width);
+  margin: auto;
+  padding: 2rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.menu {
+  position: sticky;
+  top: 0;
+  background: #060606 15;
+  backdrop-filter: blur(10px);
+  z-index: 3;
+}
+
+.nav__logo {
+  max-width: 150px;
+}
+
+.nav__links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+
+.aHref {
+  text-decoration: none;
+  color: var(--white);
+}
+
+/* Estilos de enlaces de navegación */
+.link a {
+  position: relative;
+  padding-bottom: 0.75rem;
+  color: var(--white);
+}
+
+/* Efecto hover en enlaces de navegación */
+.link a::after {
+  content: "";
+  position: absolute;
+  height: 2px;
+  width: 0;
+  left: 0;
+  bottom: 0;
+  background-color: var(--secondary-color);
+  transition: 0.3s;
+}
+
+.link a:hover::after {
+  width: 50%;
+}
+.link_selected a {
+  color: var(--secondary-color-dark);
+}
+/* Contenedor del encabezado */
+.header__container {
+  position: relative;
+  padding-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: center;
+  gap: 2rem;
+}
+
+/* Texto de fondo en el encabezado */
+.header__container::before {
+  content: "POSITIVE";
+  position: absolute;
+  bottom: 5rem;
+  right: 20rem;
+  font-size: 10rem;
+  font-weight: 700;
+  line-height: 7rem;
+  color: var(--white);
+  opacity: 0.05;
+  z-index: -1;
+}
+
+/* Blur específico del encabezado */
+.header__blur {
+  bottom: 5rem;
+  right: 0;
+}
+
+/* Estilos de contenido del encabezado */
+.header__content h4 {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--secondary-color);
+}
+
+.header__content h1 {
+  margin-bottom: 1rem;
+  font-size: 5rem;
+  font-weight: 700;
+  line-height: 6rem;
+  color: var(--white);
+  overflow: hidden;
+}
+
+/* Estilos específicos para span en h1 */
+.header__content h1 span {
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1px var(--white);
+}
+
+.header__content p {
+  margin-bottom: 2rem;
+  color: var(--text-light);
+}
+
+/* Contenedor de imagen del encabezado */
+.header__image {
+  position: relative;
+}
+
+/* Texto de fondo en la imagen del encabezado */
+.header__image::before {
+  content: "STAY";
+  position: absolute;
+  top: 35%;
+  left: 15%;
+  transform: translateX(-50%);
+  font-size: 8rem;
+  font-weight: 700;
+  line-height: 20rem;
+  color: var(--secondary-color);
+  opacity: 0.1;
+  z-index: -1;
+}
+
+.header__image img {
+  max-width: 390px;
+  margin: auto;
+}
+
+/* Estilos del encabezado de la sección explorar */
+.explore__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+/* Navegación en la sección explorar */
+.explore__nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* Estilos de los íconos de la navegación explorar */
+.explore__nav span {
+  padding: 0 6px;
+  font-size: 1.5rem;
+  color: var(--white);
+  border: 2px solid var(--white);
+  border-radius: 100%;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.explore__nav span:hover {
+  color: var(--secondary-color);
+  border-color: var(--secondary-color);
+}
+
+/* Grid de la sección explorar */
+.explore__grid {
+  margin-top: 4rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+/* Estilos de las Cards en explorar */
+.explore__card {
+  padding: 1rem;
+  background-color: var(--primary-color-light);
+  border: 2px solid transparent;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.explore__card:hover {
+  background-color: var(--primary-color-extra-light);
+  border-color: var(--secondary-color);
+}
+
+.explore__card span {
+  display: inline-block;
+  padding: 2px 9px;
+  margin-bottom: 1rem;
+  font-size: 1.75rem;
+  color: var(--white);
+  background-color: var(--secondary-color-dark);
+  border-radius: 5px;
+}
+
+.explore__card h4 {
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--white);
+}
+
+.explore__card p {
+  margin-bottom: 1rem;
+  color: var(--text-light);
+}
+
+.explore__card a {
+  color: var(--white);
+  transition: 0.3s;
+}
+
+.explore__card a:hover {
+  color: var(--secondary-color);
+}
+
+/* Contenedor de la sección de clases */
+.class__container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+/* Estilos de contenido de la sección de clases */
+.class__content {
+  padding: 2rem 0;
+}
+
+/* Estilos del encabezado de la sección de clases */
+.class__content .section__header {
+  text-align: left;
+  max-width: 400px;
+}
+
+.class__content p {
+  margin-bottom: 1.2rem;
+  color: var(--text-light);
+}
+
+/* Estilos para el contenedor de precios */
+.price__grid {
+  margin-top: 4rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+/* Estilos para las tarjetas de precios */
+.price__card {
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--primary-color-light);
+  border: 2px solid transparent;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+/* Estilos al pasar el ratón por encima de las tarjetas de precios */
+.price__card:hover {
+  background-color: var(--primary-color-extra-light);
+  border-color: var(--secondary-color);
+}
+
+/* Contenido dentro de las tarjetas de precios */
+.price_card_content {
+  flex: 1;
+  margin-bottom: 2rem;
+}
+
+/* Estilos para los títulos dentro de las tarjetas de precios */
+.price__card h4 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--white);
+}
+
+/* Estilos para los precios dentro de las tarjetas de precios */
+.price__card h3 {
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--white);
+  border-bottom: 2px solid var(--white);
+}
+
+/* Estilos para los párrafos dentro de las tarjetas de precios */
+.price__card p {
+  margin-bottom: 0.75rem;
+  color: var(--white);
+}
+
+/* Estilos para los iconos dentro de los párrafos de las tarjetas de precios */
+.price__card p i {
+  margin-right: 0.5rem;
+  font-size: 1.2rem;
+  color: var(--secondary-color);
+}
+
+/* Estilos para el botón dentro de las tarjetas de precios */
+.price__btn {
+  color: var(--secondary-color);
+  background-color: transparent;
+  border: 2px solid var(--secondary-color);
+}
+
+/* Estilos al pasar el ratón por encima del botón */
+.price__btn:hover {
+  color: var(--white);
+  background-color: var(--secondary-color);
+}
+
+.form__agenda {
+  color: #fff;
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.inputs__agenda {
+  background-color: transparent;
+  border-radius: 10px;
+  color: #fff;
+  height: 3rem;
+  font-size: 1.3rem;
+  margin: 0 1rem;
+  padding-left: 1rem;
+}
+
+.precioFinal {
+  color: var(--white);
+  text-align: center;
+}
+.ag_precioFinal {
+  background-color: var(--primary-color-extra-light);
+  padding: 4rem;
+  width: 50%;
+  border-radius: 5px;
+  color: var(--white);
+}
+.saludoUser {
+  padding-top: 2rem;
+  padding-left: 5rem;
+}
+
+.agendaSemana {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding-top: 1rem;
+  flex-wrap: wrap;
+  gap: 10px;
+  border: 1px solid var(--secondary-color);
+  margin-top: 3rem;
+  justify-content: center;
+  border-radius: 5px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.ag_datosUsuario {
+  margin: 0 auto;
+}
+
+/*etiqueta parecida a un boton*/
+.btnDia {
+  display: block;
+  margin: 0 auto 10px auto;
+  text-align: center;
+  padding: 1rem 2rem;
+  outline: none;
+  border: none;
+  font-size: 1rem;
+  color: var(--white);
+  background-color: var(--secondary-color);
+  border-radius: 5px;
+  width: 100%;
+}
+
+.horarios {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.horarios p {
+  cursor: pointer;
+}
+
+#ag_reservaDias {
+  text-align: center;
+}
+
+.resaltar {
+  color: #0f7e00;
+}
+
+.section__container iframe {
+  border: 0;
+}
+/*Para centrar un elemento solo*/
+.centrar {
+  display: block;
+  margin: 1rem auto;
+}
+/*sección del contacto*/
+.section__contacto {
+  color: var(--text-light);
+  width: 90%;
+  max-width: 1200px;
+  margin: 3rem auto;
+  border: 2px solid var(--secondary-color);
+  padding: 2rem;
+  border-radius: 5px;
+  background-image: linear-gradient(
+    to right,
+    var(--primary-color-light) 50%,
+    var(--primary-color) 100%
+  );
+}
+/*Seccion de inicio sesion*/
+.section_start_session {
+  color: var(--text-light);
+  width: 70%;
+  max-width: 1200px;
+  margin: 3rem auto;
+  border: 2px solid var(--secondary-color);
+  padding: 4rem;
+  border-radius: 5px;
+  background-image: linear-gradient(
+    to right,
+    var(--primary-color-light) 50%,
+    var(--primary-color) 100%
+  );
+  font-size: 18px;
+}
+.start_session_field {
+  padding-bottom: 30px;
+  margin: 0 auto;
+  width: 70%;
+  input {
+    padding-left: 10px;
+    font-size: 18px;
+    width: 60%;
+  }
+  label {
+    display: block;
+  }
+}
+.start_session_fields {
+  margin-top: 40px;
+}
+.start_session_btn_pw {
+  height: 20px;
+  width: 30px;
+}
+.contacto__campo label {
+  display: block;
+}
+.contacto__fieldset {
+  border: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+.contacto__fieldset legend {
+  margin-bottom: 1rem;
+}
+.contacto__gc100 {
+  grid-column: 1/3;
+}
+.contacto__campo input {
+  height: 2rem;
+  background-color: var(--primary-color-extra-light);
+  color: var(--white);
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  padding-left: 0.2rem;
+}
+.contacto__campo textarea {
+  background-color: var(--primary-color-extra-light);
+  border: none;
+  color: var(--white);
+  border-radius: 5px;
+  width: 100%;
+  padding-left: 0.2rem;
+}
+.contacto__btn button {
+  margin-top: 1rem;
+  width: 40%;
+}
+.contacto__campo--select select {
+  height: 2rem;
+  background-color: var(--primary-color-extra-light);
+  border: none;
+  color: var(--white);
+  border-radius: 5px;
+}
+/*Fin seccion contacto*/
+
+.footer__container {
+  position: relative;
+  display: grid;
+  grid-template-columns: 400px repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.footer__blur {
+  bottom: 0;
+  right: 0;
+}
+
+.footer__logo {
+  max-width: 150px;
+  margin-bottom: 2rem;
+}
+
+.footer__col p {
+  margin-bottom: 2rem;
+  color: var(--text-light);
+}
+
+.footer__socials {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footer__socials a {
+  padding: 5px 10px;
+  font-size: 1.25rem;
+  color: var(--secondary-color);
+  border: 1px solid var(--secondary-color);
+  border-radius: 100%;
+  transition: 0.3s;
+}
+
+.footer__socials a:hover {
+  color: var(--white);
+  background-color: var(--secondary-color);
+}
+
+.footer__col h4 {
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--white);
+}
+
+.footer__col > a {
+  display: block;
+  margin-bottom: 1rem;
+  color: var(--text-light);
+  transition: 0.3s;
+}
+
+.footer__col > a:hover {
+  color: var(--secondary-color);
+}
+
+.footer__bar {
+  max-width: var(--max-width);
+  margin: auto;
+  padding: 1rem;
+  font-size: 0.8rem;
+  color: var(--white);
+}
+
+@media (width < 900px) {
+  nav {
+    gap: 0;
+  }
+  .nav__links {
+    gap: 0;
+    justify-content: space-between;
+    width: 100%;
+    justify-content: space-around;
+  }
+  .header__container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .header__image {
+    grid-area: 1/1/2/2;
+  }
+
+  .explore__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .class__container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .class__image {
+    min-height: 500px;
+  }
+
+  .price__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .review__container {
+    gap: 2rem;
+  }
+
+  .footer__container {
+    grid-template-columns: 1fr 200px;
+  }
+
+  .agendaSemana {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  #contacto_titulo,
+  #agenda_titulo {
+    font-size: 4.5rem;
+  }
+}
+
+@media (width < 600px) {
+  .explore__header {
+    flex-direction: column;
+  }
+
+  .explore__grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .join__container {
+    margin-bottom: 15rem;
+  }
+
+  .join__grid {
+    width: 100%;
+    margin: 0;
+    bottom: -20rem;
+  }
+
+  .price__grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .review__container {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .review__footer {
+    flex-direction: column;
+  }
+
+  .footer__container {
+    grid-template-columns: 1fr 150px;
+  }
+
+  .footer__bar {
+    text-align: center;
+  }
+
+  nav {
+    flex-direction: column;
+  }
+  .nav__links {
+    padding: 1rem;
+  }
+  #contacto_titulo,
+  #agenda_titulo {
+    font-size: 3.5rem;
+  }
+
+  .section__contacto {
+    width: 90%;
+  }
+
+  .contacto__campo:nth-of-type(1),
+  .contacto__campo:nth-of-type(2) {
+    grid-column: 1 / 3;
+  }
+
+  .agendaSemana {
+    grid-template-columns: repeat(1, 1fr);
+    width: 100%;
+  }
+  .form__agenda {
+    width: 90%;
+  }
+  .contacto__fieldset {
+    display: flex;
+    flex-direction: column;
+  }
+  .contacto__form {
+    overflow: hidden;
+  }
+}
