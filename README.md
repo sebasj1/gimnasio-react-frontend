@@ -9,3 +9,5 @@ Currently, two official plugins are available:
 # api-biblioteca-puzzle-
 # api-biblioteca-puzzle-
 # api-biblioteca-puzzle-
+
+Es una api sobre una biblioteca elaborada en Typescript en un curso de fullstack de la academia Puzzle
