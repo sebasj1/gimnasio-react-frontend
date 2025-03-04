@@ -1,2 +1,1 @@
-
-Es una api sobre una biblioteca elaborada en Typescript en un curso de fullstack de la academia Puzzle
+Es una pagina web creada en html,js y css en el curso Codo a codo-Fullstack Develop posteriormente rediseñada con react junto a mejoras(entre ellas inicio de sesion y registro) y fusionada a una api en su backend
