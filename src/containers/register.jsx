@@ -1,6 +1,7 @@
 import { Formik, Field, ErrorMessage, Form } from "formik";
 import * as Yup from "yup";
 import { UserRegister } from "../handler_api";
+import { useState } from "react";
 
 const validationSchema = Yup.object({
   ct_nombre: Yup.string()
@@ -36,6 +37,8 @@ const validationSchema = Yup.object({
 });
 
 export const Register = () => {
+  const [type_pw, setType_pw] = useState("password");
+  const [type_pw2, setType_pw2] = useState("password");
   return (
     <Formik
       initialValues={{
@@ -46,6 +49,7 @@ export const Register = () => {
         ct_documento: "3243223",
         ct_direccion: "momo 98",
         ct_password: "12345678",
+        ct_password2: "",
       }}
       validationSchema={validationSchema}
       onSubmit={(values) => {
@@ -67,13 +71,13 @@ export const Register = () => {
       }}
     >
       {() => (
-        <section className="section__contacto section_container">
+        <section className="section__container__general ">
           <div className="header__content">
             <span className="bg__blur"></span>
             <span className="bg__blur header__blur"></span>
-            <h4>Registrarse</h4>
+            <h4>REGISTRARSE</h4>
             <h1 id="contacto_titulo">
-              REGISTRO<span> </span>
+              REGISTRO<span> USUARIO </span>
             </h1>
             <p>
               Desata el potencial hacia tú versión más fuerte, más en forma y
@@ -182,11 +186,28 @@ export const Register = () => {
               <div className="contacto__campo">
                 <label htmlFor="ct_password">Contraseña: </label>
                 <Field
-                  id="ct_password"
+                  id="register_password"
                   name="ct_password"
-                  type="password"
+                  type={type_pw}
                   placeholder="Una contraseña"
+                /> <button
+                type="button"
+                className="btn btn_min"
+                onClick={
+                  type_pw === "password"
+                    ? () => setType_pw("text")
+                    : () => setType_pw("password")
+                }
+              >
+                <img
+                  className="start_session_btn_pw "
+                  src={
+                    type_pw === "password"
+                      ? "./src/assets/img/eye_visible.png"
+                      : "./src/assets/img/eye_hide.png"
+                  }
                 />
+              </button>
                 <ErrorMessage
                   name="ct_password"
                   component="p"
@@ -197,11 +218,28 @@ export const Register = () => {
               <div className="contacto__campo">
                 <label htmlFor="ct_password2">Confirmar contraseña: </label>
                 <Field
-                  id="ct_password2"
+                  id="register_password2"
                   name="ct_password2"
-                  type="password"
+                  type={type_pw2}
                   placeholder="Confirmar contraseña"
+                /> <button
+                type="button"
+                className="btn btn_min"
+                onClick={
+                  type_pw2 === "password"
+                    ? () => setType_pw2("text")
+                    : () => setType_pw2("password")
+                }
+              >
+                <img
+                  className="start_session_btn_pw "
+                  src={
+                    type_pw2 === "password"
+                      ? "./src/assets/img/eye_visible.png"
+                      : "./src/assets/img/eye_hide.png"
+                  }
                 />
+              </button>
                 <ErrorMessage
                   name="ct_password2"
                   component="p"
@@ -210,9 +248,9 @@ export const Register = () => {
               </div>
             </fieldset>
 
-            <div className="contacto__btn">
+            <div className="general__btn-submit">
               <button type="submit" className="btn">
-                Enviar
+                Registrarse
               </button>
             </div>
           </Form>

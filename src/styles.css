@@ -518,7 +518,7 @@ nav {
   margin: 1rem auto;
 }
 /*sección del contacto*/
-.section__contacto {
+.section__container__general {
   color: var(--text-light);
   width: 90%;
   max-width: 1200px;
@@ -534,39 +534,29 @@ nav {
 }
 /*Seccion de inicio sesion*/
 .section_start_session {
-  color: var(--text-light);
-  width: 70%;
-  max-width: 1200px;
-  margin: 3rem auto;
-  border: 2px solid var(--secondary-color);
-  padding: 4rem;
-  border-radius: 5px;
-  background-image: linear-gradient(
-    to right,
-    var(--primary-color-light) 50%,
-    var(--primary-color) 100%
-  );
-  font-size: 18px;
 }
 .start_session_field {
   padding-bottom: 30px;
   margin: 0 auto;
-  width: 70%;
   input {
     padding-left: 10px;
     font-size: 18px;
-    width: 60%;
-  }
-  label {
-    display: block;
   }
 }
 .start_session_fields {
   margin-top: 40px;
+  padding-left: 10%;
 }
 .start_session_btn_pw {
   height: 20px;
   width: 30px;
+}
+#register_password,#register_password2{
+  width:80% ;
+}
+/*/ERRORES*/
+.error {
+  text-decoration: underline;
 }
 .contacto__campo label {
   display: block;
@@ -600,10 +590,13 @@ nav {
   width: 100%;
   padding-left: 0.2rem;
 }
-.contacto__btn button {
-  margin-top: 1rem;
-  width: 40%;
-}
+.general__btn-submit{
+  display: flex;
+  justify-content: end;
+  button {
+  margin-top: 2rem;
+  width: 30%;
+}}
 .contacto__campo--select select {
   height: 2rem;
   background-color: var(--primary-color-extra-light);

@@ -73,7 +73,7 @@ export const Contact = () => {
       }}
     >
       {() => (
-        <section className="section__contacto section_container">
+        <section className="section__container__general">
           <div className="header__content">
             <span className="bg__blur"></span>
             <span className="bg__blur header__blur"></span>
@@ -215,7 +215,7 @@ export const Contact = () => {
               </div>
             </fieldset>
 
-            <div className="contacto__btn">
+            <div className="general__btn-submit">
               <button type="submit" className="btn">
                 Enviar
               </button>

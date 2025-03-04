@@ -13,26 +13,24 @@ const validationSchema = Yup.object({
 });
 export const StartSession = () => {
   const [type_pw, setType_pw] = useState("password");
-  console.log(type_pw);
 
   return (
     <Formik
       initialValues={{ user: "", password: "" }}
       validationSchema={validationSchema}
       onSubmit={(values) => {
-        alert(JSON.stringify(values, null, 2));
         UserLogin({ email: values.email, password: values.password });
       }}
     >
       {() => (
-        <div className=" section_container">
-          <Form className="section__contacto section_start_session">
+        <div className=" section__container__general">
+          <Form className=" section_start_session">
             <div className="header__content">
               <span className="bg__blur"></span>
               <span className="bg__blur header__blur"></span>
               <h4>Iniciar sesión</h4>
               <h1 id="contacto_titulo">
-                INICIO<span> </span>
+                INICIO<span> DE SESIÓN </span>
               </h1>
               <p>
                 Desata el potencial hacia tú versión más fuerte, más en forma y
@@ -54,26 +52,30 @@ export const StartSession = () => {
                 <label htmlFor="password">Contraseña: </label>
                 <Field type={type_pw} name="password" />
                 <button
+                  type="button"
                   className="btn btn_min"
                   onClick={
                     type_pw === "password"
                       ? () => setType_pw("text")
                       : () => setType_pw("password")
                   }
-                ><img className="start_session_btn_pw " src={type_pw === "password" ? (
-                   "./src/assets/img/eye_visible.png" 
-                  ) : (
-                    "./src/assets/img/eye_hide.png" 
-                  )}/>
-                  
+                >
+                  <img
+                    className="start_session_btn_pw "
+                    src={
+                      type_pw === "password"
+                        ? "./src/assets/img/eye_visible.png"
+                        : "./src/assets/img/eye_hide.png"
+                    }
+                  />
                 </button>
                 <ErrorMessage name="password" component="p" className="error" />
               </div>
-              <div className="start_session__btn">
-                <button type="submit" className="btn">
-                  Iniciar
-                </button>
-              </div>
+            </div>
+            <div className="general__btn-submit">
+              <button type="submit" className="btn">
+                Iniciar
+              </button>
             </div>
           </Form>
         </div>
