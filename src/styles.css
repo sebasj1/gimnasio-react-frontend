@@ -42,11 +42,10 @@
   text-align: center;
   color: var(--text-light);
 }
-
 /* Botón */
 .btn {
   font-family: "Poppins", sans-serif;
-  padding: 1rem 2rem;
+  padding: 1rem 1.5rem;
   outline: none;
   border: none;
   font-size: 1rem;
@@ -60,6 +59,14 @@
   text-align: center;
   line-height: 1;
   vertical-align: middle;
+  font-weight: 600;
+  max-height: 48px;
+}
+
+.btn__container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
 }
 
 .btn:hover {
@@ -267,7 +274,12 @@ nav {
   cursor: pointer;
   transition: 0.3s;
 }
-
+.lbl__navbar {
+  color: var(--white);
+  white-space: normal; /* Permite que el texto se ajuste y se divida en varias líneas */
+  word-wrap: break-word;
+  width: 30%;
+}
 .explore__nav span:hover {
   color: var(--secondary-color);
   border-color: var(--secondary-color);
@@ -533,26 +545,26 @@ nav {
   );
 }
 /*Seccion de inicio sesion*/
-.section_start_session {
-}
 .start_session_field {
   padding-bottom: 30px;
-  margin: 0 auto;
+  display: inline-block;
   input {
     padding-left: 10px;
-    font-size: 18px;
+    font-size: 22px;
   }
 }
 .start_session_fields {
   margin-top: 40px;
-  padding-left: 10%;
+  text-align: center;
 }
+
 .start_session_btn_pw {
   height: 20px;
   width: 30px;
 }
-#register_password,#register_password2{
-  width:80% ;
+#register_password,
+#register_password2 {
+  width: 80%;
 }
 /*/ERRORES*/
 .error {
@@ -590,13 +602,14 @@ nav {
   width: 100%;
   padding-left: 0.2rem;
 }
-.general__btn-submit{
+.general__btn-submit {
   display: flex;
   justify-content: end;
   button {
-  margin-top: 2rem;
-  width: 30%;
-}}
+    margin-top: 2rem;
+    width: 30%;
+  }
+}
 .contacto__campo--select select {
   height: 2rem;
   background-color: var(--primary-color-extra-light);

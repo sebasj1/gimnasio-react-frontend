@@ -1,7 +1,9 @@
 import { Formik, Field, ErrorMessage, Form } from "formik";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import * as Yup from "yup";
 import { UserLogin } from "../handler_api";
+import { SessionContext } from "../context/session";
+import { useNavigate } from "react-router-dom";
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -12,14 +14,23 @@ const validationSchema = Yup.object({
     .required("Es un campo requerido"),
 });
 export const StartSession = () => {
+  const { login_context } = useContext(SessionContext);
   const [type_pw, setType_pw] = useState("password");
 
   return (
     <Formik
-      initialValues={{ user: "", password: "" }}
+      initialValues={{ email: "", password: "" }}
       validationSchema={validationSchema}
-      onSubmit={(values) => {
-        UserLogin({ email: values.email, password: values.password });
+      onSubmit={async (values) => {
+        const dataUser = await UserLogin({
+          email: values.email,
+          password: values.password,
+        });
+        if (dataUser.dataUser) {
+          login_context(dataUser.dataUser, dataUser.token);
+        } else {
+          alert(dataUser.message);
+        }
       }}
     >
       {() => (
@@ -48,6 +59,7 @@ export const StartSession = () => {
                 />
                 <ErrorMessage name="email" component="p" className="error" />
               </div>
+              <br />
               <div className="start_session_field">
                 <label htmlFor="password">Contraseña: </label>
                 <Field type={type_pw} name="password" />

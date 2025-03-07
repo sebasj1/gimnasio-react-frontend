@@ -9,7 +9,7 @@ export const Header = () => {
           <span className="bg__blur header__blur"></span>
           <h4>ENTRENAMIENTO DE ELITE</h4>
           <h1>
-            MEJORA TU <span>TU CUERPO</span>
+            MEJORA  <span>TU CUERPO</span>
           </h1>
           <p>
             Desata el potencial hacia tú versión más fuerte, más en forma y más

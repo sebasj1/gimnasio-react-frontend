@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import { Navbar } from "./components/navbar";
@@ -10,66 +10,95 @@ import { Personalized } from "./containers/personalized";
 import { Plans } from "./containers/plans";
 import { Footer } from "./containers/footer";
 import { Copyright } from "./components/copyright";
-import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import { Contact } from "./containers/contact";
 import { Calendary } from "./containers/calendary";
 import { StartSession } from "./containers/startSesion";
 import { Register } from "./containers/register";
+import { SessionContext, SessionProvider } from "./context/session";
 
 function App() {
+  let isRegister = false;
+  useEffect(() => {
+    //obtener si ya hay sesion iniciada
+    const tokenLS = localStorage.getItem("AuthToken");
+    const userLS = localStorage.getItem("User");
+    userLS != null && tokenLS != null
+      ? (isRegister = true)
+      : (isRegister = false);
+  }, []);
+
   return (
     <>
-      <Router>
-        <Head />
-        <Navbar />
-        <Routes>
-          <Route
-            path="/"
-            element={
+      <SessionProvider>
+        <Router>
+          <Head />
+          <Navbar />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  <Header />
+                  <Program_container />
+                  <Personalized />
+                  <Plans />
+                </>
+              }
+            ></Route>
+            <Route
+              path="/contacto"
+              element={
+                <>
+                  <Contact />
+                </>
+              }
+            ></Route>
+            <Route
+              path="/agenda"
+              element={
+                <>
+                  <Calendary />
+                </>
+              }
+            ></Route>
+            {!isRegister ? (
               <>
-                <Header />
-                <Program_container />
-                <Personalized />
-                <Plans />
+                <Route
+                  path="/iniciarSesion"
+                  element={
+                    <>
+                      <StartSession />
+                    </>
+                  }
+                ></Route>
               </>
-            }
-          ></Route>
-          <Route
-            path="/contacto"
-            element={
-              <>
-                <Contact />
-              </>
-            }
-          ></Route>
-          <Route
-            path="/agenda"
-            element={
-              <>
-                <Calendary />
-              </>
-            }
-          ></Route>
-          <Route
-            path="/iniciarSesion"
-            element={
-              <>
-                <StartSession />
-              </>
-            }
-          ></Route>
-          <Route
-            path="/registrarse"
-            element={
-              <>
-                <Register />
-              </>
-            }
-          ></Route>
-        </Routes>
-        <Footer />
-        <Copyright></Copyright>
-      </Router>
+            ) : (
+              Navigate("/")
+            )}
+            {!isRegister ? (
+              <Route
+                path="/registrarse"
+                element={
+                  <>
+                    <Register />
+                  </>
+                }
+              ></Route>
+            ) : (
+              Navigate("/")
+            )}
+          </Routes>
+          <Footer />
+          <Copyright></Copyright>
+        </Router>
+      </SessionProvider>
     </>
   );
 }

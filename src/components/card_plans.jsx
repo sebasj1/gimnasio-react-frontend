@@ -1,4 +1,10 @@
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import { SessionContext } from "../context/session";
+
 export const Card_plans = ({ plan, text, price, index = 0 }) => {
+  let { isRegister } = useContext(SessionContext);
+  console.log(isRegister)
   return (
     <>
       {/*<!-- Tarjeta de Plan Básico -->*/}
@@ -15,9 +21,12 @@ export const Card_plans = ({ plan, text, price, index = 0 }) => {
             );
           })}
         </div>
-        <a className="btn price__btn aHref" href="agenda.html">
+        <Link
+          className="btn price__btn aHref"
+          to={isRegister ? "/agenda" : "/iniciarSesion"}
+        >
           Empieza ahora
-        </a>
+        </Link>
       </div>
     </>
   );
