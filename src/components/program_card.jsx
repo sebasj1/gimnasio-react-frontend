@@ -6,9 +6,6 @@ export const Program_card = ({ category, img, text }) => {
       </span>
       <h4>{category}</h4>
       <p>{text}</p>
-      <a href="#">
-        Iniciar <i className="ri-arrow-right-line"></i>
-      </a>
     </div>
   );
 };

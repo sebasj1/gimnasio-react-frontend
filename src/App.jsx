@@ -22,6 +22,7 @@ import { Calendary } from "./containers/calendary";
 import { StartSession } from "./containers/startSesion";
 import { Register } from "./containers/register";
 import { SessionContext, SessionProvider } from "./context/session";
+import { Edit_user } from "./containers/edit_user";
 
 function App() {
   let isRegister = false;
@@ -60,14 +61,21 @@ function App() {
                 </>
               }
             ></Route>
-            <Route
-              path="/agenda"
-              element={
-                <>
-                  <Calendary />
-                </>
-              }
-            ></Route>
+            
+             {!isRegister ? (
+              <>
+                <Route
+                  path="/agenda"
+                  element={
+                    <>
+                      <Calendary />
+                    </>
+                  }
+                ></Route>
+              </>
+            ) : (
+              Navigate("/")
+            )}
             {!isRegister ? (
               <>
                 <Route
@@ -93,7 +101,15 @@ function App() {
               ></Route>
             ) : (
               Navigate("/")
-            )}
+            )}{" "}
+            <Route
+              path="/editarUsuario"
+              element={
+                <>
+                  <Edit_user />
+                </>
+              }
+            ></Route>
           </Routes>
           <Footer />
           <Copyright></Copyright>

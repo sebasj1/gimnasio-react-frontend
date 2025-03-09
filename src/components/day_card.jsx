@@ -1,20 +1,21 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext } from "react";
 import { SessionContext } from "../context/session";
 
 export const Day_card = ({ day, open, close }) => {
   let hour = Number(open);
   const hours = [];
-  const { addDay } = useContext(SessionContext);
+  const { addDay, User } = useContext(SessionContext);
+  const numberSelect = User ? User.id_tipo_plan : 1;
 
   const sum = (e) => {
     let allDay = document.querySelector(`#${e.target.dataset.day}`);
     let hoursOfDay = allDay.querySelectorAll(".resaltar");
     e.target.classList.toggle("resaltar");
-    if (hoursOfDay.length == 2) {
+    if (hoursOfDay.length == numberSelect) {
       if (hoursOfDay[0].textContent == e.target.textContent) {
         hoursOfDay.shift;
       } else {
-        hoursOfDay[1].classList.remove("resaltar");
+        hoursOfDay[hoursOfDay.length - 1].classList.remove("resaltar");
       }
     }
     allDay = document.querySelector(`#${e.target.dataset.day}`);

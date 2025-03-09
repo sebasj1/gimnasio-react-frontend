@@ -1,7 +1,13 @@
 import { Formik, Field, ErrorMessage, Form } from "formik";
 import * as Yup from "yup";
-import { UserRegister } from "../handler_api";
-import { useState } from "react";
+import {
+  getUser,
+  getUserRefresh,
+  send_data_edit_user,
+  UserRegister,
+} from "../handler_api";
+import { useContext, useEffect, useState } from "react";
+import { SessionContext } from "../context/session";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
@@ -29,61 +35,86 @@ const validationSchema = Yup.object({
     .min(4, "Debe tener mas de 4 caracteres")
     .max(600, "Debe tener menos de 60 caracteres")
     .required("Este campo es obligatorio"),
-  ct_password: Yup.string()
-    .min(8, "Debe tener mas de 8 caracteres")
-    .max(24, "Debe tener menos de 24 caracteres")
-    .required("Este campo es obligatorio"),
-  ct_password2: Yup.string()
-    .oneOf([Yup.ref("ct_password"), null], "Las contraseñas no coinciden") // Confirmación de contraseña
-    .required("La confirmación de la contraseña es obligatoria"),
 });
 
-export const Register = () => {
-  const [type_pw, setType_pw] = useState("password");
-  const [type_pw2, setType_pw2] = useState("password");
-  const [date, setDate] = useState(new Date());
+export const Edit_user = () => {
+  const { User, refresh_user_context } = useContext(SessionContext);
+  const [userTo, setUserTo] = useState(null);
+  const [date, setDate] = useState("");
 
-  const confirm_register = async (values) => {
+  useEffect(() => {
+    const fetchUser = async () => {
+      const user = await getUser(User.id_usuario);
+      setUserTo(user[0]);
+    };
+    if (User && User.id_usuario) {
+      fetchUser(); // Solo llamamos a fetchUser si `User` tiene un `id_usuario`
+    }
+  }, []);
+
+  useEffect(() => {
+    if (userTo && userTo.fecha_nacimiento) {
+      const [day, month, year] = userTo.fecha_nacimiento
+        .substring(0, 10)
+        .split("-");
+      const newDate = `${day}/${month}/${year}`;
+      if (newDate !== date) {
+        // Asegurarse de no hacer una actualización innecesaria
+        setDate(newDate);
+      }
+
+      //setDate(fe[1] + "-" + fe[2] + "-" + fe[0]); //Si no toma de cualquier forma
+    }
+  }, [userTo, date]);
+
+  if (!userTo) {
+    return <div>Cargando...</div>;
+  }
+
+  const confirm_update = async (values) => {
     const send = confirm("¿Desea enviar la información?");
     if (send) {
-      alert(JSON.stringify(values, null, 2));
       const data = {
         nombre: values.ct_nombre,
         apellido: values.ct_apellido,
         telefono: values.ct_telefono,
         email: values.ct_email,
-        id_tipo_plan: 1,
+        id_tipo_plan: values.ct__select,
         id_tipo_usuario: 1,
-        fecha_nacimiento: date.toLocaleDateString("en-CA"),
+        fecha_nacimiento: date,
         direccion: values.ct_direccion,
         numero_documento: values.ct_documento,
-        password: values.ct_password,
       };
+      const resp = await send_data_edit_user(User.id_usuario, data);
+      if (resp) refresh_user();
 
-      const resp = await UserRegister(data);
-      if (resp) window.location.reload();
     }
   };
 
-  const handleDateChange = (date) => {
-    setDate(date);
+  const refresh_user = async () => {
+    const dataUser = await getUserRefresh(User.id_usuario);
+    console.log(dataUser);
+    refresh_user_context(dataUser);
+    window.location.reload();
   };
 
+  const handleDateChange = (date) => {
+    setDate(date.toLocaleDateString("eu-CA"));
+  };
   return (
     <Formik
       initialValues={{
-        ct_nombre: "",
-        ct_apellido: "",
-        ct_telefono: "",
-        ct_email: "",
-        ct_documento: "",
-        ct_direccion: "",
-        ct_password: "",
-        ct_password2: "",
+        ct_nombre: userTo.nombre,
+        ct_apellido: userTo.apellido,
+        ct_telefono: userTo.telefono,
+        ct_email: userTo.email,
+        ct_documento: userTo.numero_documento,
+        ct_direccion: userTo.direccion,
+        ct__select: userTo.id_tipo_plan,
       }}
       validationSchema={validationSchema}
       onSubmit={(values) => {
-        confirm_register(values);
+        confirm_update(values);
       }}
     >
       {() => (
@@ -91,19 +122,19 @@ export const Register = () => {
           <div className="header__content">
             <span className="bg__blur"></span>
             <span className="bg__blur header__blur"></span>
-            <h4>REGISTRARSE</h4>
+            <h4>Editar</h4>
             <h1 id="contacto_titulo">
-              REGISTRO<span> USUARIO </span>
+              EDITAR<span> USUARIO </span>
             </h1>
             <p>
               Desata el potencial hacia tú versión más fuerte, más en forma y
-              más seguro de ti mismo. <b>¡Inscríbete ahora </b>y sé testigo de
-              tu transformación!
+              más seguro de ti mismo. <b>¡Inscríbete ahora</b>y sé testigo de tu
+              transformación!
             </p>
           </div>
           <Form className="contacto__form">
             <fieldset className="contacto__fieldset">
-              <legend>Completa tus datos</legend>
+              <legend>Actualiza tus datos</legend>
               {/* Nombre */}
               <div className="contacto__campo">
                 <label htmlFor="ct_nombre" className="">
@@ -195,94 +226,37 @@ export const Register = () => {
                   name="ct_email"
                   placeholder="Tu correo"
                   type="email"
-                />{" "}
+                />
                 <ErrorMessage name="ct_email" component="p" className="error" />
-              </div>{" "}
+              </div>
+              {/*Plan*/}
+              <div className="contacto__campo--select">
+                <label htmlFor="ct__select">Tipo de plan : </label>
+                <Field as="select" name="ct__select">
+                  <option value="1">Básico</option>
+                  <option value="2">PRO</option>
+                  <option value="3">Elite</option>
+                </Field>
+              </div>
               {/*fecha*/}
               <div className="date_form">
                 <h1>Seleccionar Fecha de nacimiento</h1>
                 <div>
                   <label>Fecha:</label>
                   <Calendar
+                    name="ct_fecha"
                     onChange={handleDateChange}
                     value={date}
                     view="month" // Muestra el calendario mensual
                     showNeighboringMonth={false} // Ocultar los días del mes anterior y siguiente
                   />
                 </div>
-                <p>Fecha seleccionada: {date.toLocaleDateString()}</p>
-              </div>
-              {/*COntraseña*/}
-              <div className="contacto__campo">
-                <label htmlFor="ct_password">Contraseña: </label>
-                <Field
-                  id="register_password"
-                  name="ct_password"
-                  type={type_pw}
-                  placeholder="Una contraseña"
-                />{" "}
-                <button
-                  type="button"
-                  className="btn btn_min"
-                  onClick={
-                    type_pw === "password"
-                      ? () => setType_pw("text")
-                      : () => setType_pw("password")
-                  }
-                >
-                  <img
-                    className="start_session_btn_pw "
-                    src={
-                      type_pw === "password"
-                        ? "./src/assets/img/eye_visible.png"
-                        : "./src/assets/img/eye_hide.png"
-                    }
-                  />
-                </button>
-                <ErrorMessage
-                  name="ct_password"
-                  component="p"
-                  className="error"
-                />
-              </div>{" "}
-              {/*COntraseña*/}
-              <div className="contacto__campo">
-                <label htmlFor="ct_password2">Confirmar contraseña: </label>
-                <Field
-                  id="register_password2"
-                  name="ct_password2"
-                  type={type_pw2}
-                  placeholder="Confirmar contraseña"
-                />{" "}
-                <button
-                  type="button"
-                  className="btn btn_min"
-                  onClick={
-                    type_pw2 === "password"
-                      ? () => setType_pw2("text")
-                      : () => setType_pw2("password")
-                  }
-                >
-                  <img
-                    className="start_session_btn_pw "
-                    src={
-                      type_pw2 === "password"
-                        ? "./src/assets/img/eye_visible.png"
-                        : "./src/assets/img/eye_hide.png"
-                    }
-                  />
-                </button>
-                <ErrorMessage
-                  name="ct_password2"
-                  component="p"
-                  className="error"
-                />
               </div>
             </fieldset>
 
             <div className="general__btn-submit">
               <button type="submit" className="btn">
-                Registrarse
+                Actualizar
               </button>
             </div>
           </Form>

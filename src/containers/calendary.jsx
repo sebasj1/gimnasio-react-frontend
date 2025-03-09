@@ -1,6 +1,8 @@
 import { useContext } from "react";
 import { Day_card } from "../components/day_card";
 import { SessionContext } from "../context/session";
+import { object } from "yup";
+import { create_turn, delete_turn, get_turn } from "../handler_api";
 
 const days = [
   { day: "Lunes", open: 10, close: 20 },
@@ -13,7 +15,8 @@ const days = [
 ];
 
 export const Calendary = () => {
-  const { daysChoosen } = useContext(SessionContext);
+  const { daysChoosen, User } = useContext(SessionContext);
+
   return (
     <>
       {/*<!-- Sección de encabezado -->*/}
@@ -54,14 +57,28 @@ export const Calendary = () => {
           </div>
         </div>
         <button
-          onClick={() => {
-            alert(JSON.stringify(daysChoosen, null, 2));
+          onClick={async () => {
+            const id_user = User.id_usuario;
+            delete_turn(id_user);
+            const aa = await get_turn(id_user);
+            console.log(aa);
+            Object.keys(daysChoosen.obj).forEach((element) => {
+              console.log(element, daysChoosen.obj[element]);
+              daysChoosen.obj[element].forEach((el) => {
+                const data = {
+                  dia: element,
+                  hora: el,
+                  id_usuario: id_user,
+                };
+                create_turn(data);
+              });
+            });
           }}
           className="btn centrar "
           hidden
           id="ag_reservaDias"
         >
-          Reservar turnos
+          Guardar turnos
         </button>
 
         <div className="ag_precioFinal" hidden>

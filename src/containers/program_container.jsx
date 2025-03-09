@@ -25,33 +25,18 @@ export const Program_container = () => {
             flexibilidad y bienestar general."
           />
           {/*<!-- Card programa de Pérdida de grasa -->*/}
-          <div className="explore__card">
-            <span>
-              <i className="ri-run-line"></i>
-            </span>
-            <h4>Pérdida de grasa</h4>
-            <p>
-              A través de una combinación de ejercicios, lo capacitaremos para
-              alcanzar sus objetivos.
-            </p>
-            <a href="#">
-              Iniciar <i className="ri-arrow-right-line"></i>
-            </a>
-          </div>
-          {/*  <!-- Card programa de Aumento de peso -->*/}
-          <div className="explore__card">
-            <span>
-              <i className="ri-shopping-basket-fill"></i>
-            </span>
-            <h4>Aumento de peso</h4>
-            <p>
-              Diseñado para individuos, nuestro programa ofrece un enfoque
-              eficaz. ganar peso de forma sostenible.
-            </p>
-            <a href="#">
-              Iniciar <i className="ri-arrow-right-line"></i>
-            </a>
-          </div>
+          <Program_card
+            img="ri-run-line"
+            category="Pérdida de grasa"
+            text="A través de una combinación de ejercicios, lo capacitaremos para
+              alcanzar sus objetivos."
+          />
+          {/*  <!-- Card programa de Aumento de peso -->*/} <Program_card
+            img="ri-shopping-basket-fill"
+            category="Aumento de peso"
+            text=" Diseñado para individuos, nuestro programa ofrece un enfoque
+              eficaz. ganar peso de forma sostenible."
+          />
         </div>
       </section>
     </>

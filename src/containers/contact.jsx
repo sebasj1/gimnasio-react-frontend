@@ -1,5 +1,8 @@
 import { Formik, Field, ErrorMessage, Form } from "formik";
+import { useContext } from "react";
 import * as Yup from "yup";
+import { SessionContext } from "../context/session";
+import { send_message } from "../handler_api";
 
 const validationSchema = Yup.object({
   ct_nombre: Yup.string()
@@ -29,21 +32,26 @@ const validationSchema = Yup.object({
 });
 
 export const Contact = () => {
+  const context = useContext(SessionContext);
+  let user = null;
+  if (context) {
+    user = context.User;
+  }
+
   return (
     <Formik
       initialValues={{
-        ct_nombre: "",
-        ct_apellido: "",
-        ct_telefono: "",
-        ct_email: "",
+        ct_nombre: user ? user.nombre : "",
+        ct_apellido: user ? user.apellido : "",
+        ct_telefono: user ? user.telefono : "",
+        ct_email: user ? user.email : "",
         ct_mensaje: "",
         ct__select: "No aún",
         ct_wpp: "SI",
         ct_edad: "",
       }}
       validationSchema={validationSchema}
-      onSubmit={(values) => {
-        alert(JSON.stringify(values, null, 2));
+      onSubmit={async (values) => {
         const data = {
           nombre: values.ct_nombre,
           apellido: values.ct_apellido,
@@ -54,22 +62,7 @@ export const Contact = () => {
           email: values.ct_email,
           edad: values.ct_edad,
         };
-        console.log(data);
-
-        fetch("http://localhost:3000/mensajes/", {
-          method: "POST", // Define que es una solicitud POST
-          headers: {
-            "Content-Type": "application/json", // Especificamos que el cuerpo es JSON
-          },
-          body: JSON.stringify(data), // Convertimos el objeto `data` a una cadena JSON
-        })
-          .then((response) => response.json()) // Convierte la respuesta en formato JSON
-          .then((data) => {
-            console.log("Éxito:", data); // Manejo de la respuesta exitosa
-          })
-          .catch((error) => {
-            console.error("Error:", error); // Manejo de errores
-          });
+        const resp = await send_message(data);
       }}
     >
       {() => (
@@ -101,6 +94,7 @@ export const Contact = () => {
                   name="ct_nombre"
                   type="text"
                   placeholder="Tu nombre"
+                  readOnly={user?true:false}
                 />
                 <ErrorMessage
                   name="ct_nombre"
@@ -119,6 +113,7 @@ export const Contact = () => {
                   type="text"
                   name="ct_apellido"
                   placeholder="Tu apellido"
+                  readOnly={user?true:false}
                 />
                 <ErrorMessage
                   name="ct_apellido"
@@ -178,6 +173,7 @@ export const Contact = () => {
                   name="ct_email"
                   placeholder="Tu correo"
                   type="email"
+                  readOnly={user?true:false}
                 />{" "}
                 <ErrorMessage name="ct_email" component="p" className="error" />
               </div>

@@ -7,17 +7,27 @@ export const SessionProvider = ({ children }) => {
   const [User, setUser] = useState(null);
   const [isRegister, setIsRegister] = useState(false);
   const [daysChoosen, setDaysChoosen] = useState({});
-
   useEffect(() => {
     //obtener si ya hay sesion iniciada
     const tokenLS = localStorage.getItem("AuthToken");
     const userLS = localStorage.getItem("User");
     if (userLS != null) {
-      setAuthToken(tokenLS);
-      setUser(JSON.parse(userLS));
-      setIsRegister(true);
+      try {
+        setAuthToken(tokenLS);
+        setUser(JSON.parse(userLS));
+        setIsRegister(true);
+      } catch (error) {
+        throw error;
+      }
     }
   }, []);
+
+  const refresh_user_context = (user) => {
+    localStorage.setItem("User", JSON.stringify(user));
+
+    setUser(user);
+    setIsRegister(true);
+  };
 
   const login_context = (user, token) => {
     localStorage.setItem("AuthToken", AuthToken);
@@ -39,7 +49,6 @@ export const SessionProvider = ({ children }) => {
     setDaysChoosen({
       obj,
     });
-
   };
   return (
     <SessionContext.Provider
@@ -51,6 +60,8 @@ export const SessionProvider = ({ children }) => {
         isRegister,
         addDay,
         daysChoosen,
+        setDaysChoosen,
+        refresh_user_context,
       }}
     >
       {children}
