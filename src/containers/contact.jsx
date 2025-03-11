@@ -1,5 +1,5 @@
 import { Formik, Field, ErrorMessage, Form } from "formik";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import * as Yup from "yup";
 import { SessionContext } from "../context/session";
 import { send_message } from "../handler_api";
@@ -32,6 +32,9 @@ const validationSchema = Yup.object({
 });
 
 export const Contact = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const context = useContext(SessionContext);
   let user = null;
   if (context) {
@@ -62,15 +65,16 @@ export const Contact = () => {
           email: values.ct_email,
           edad: values.ct_edad,
         };
-        const resp = await send_message(data);
+        const conf = confirm("Se está por envíar el mensaje");
+        if (conf) await send_message(data);
       }}
     >
       {() => (
-        <section className="section__container__general">
+        <section className="section__container__general" id="contacto">
           <div className="header__content">
             <span className="bg__blur"></span>
             <span className="bg__blur header__blur"></span>
-            <h4>DEJANOS TU CONSULTA</h4>
+            <h4>Dejanos tu consulta</h4>
             <h1 id="contacto_titulo">
               COMUNICATE<span> CON NOSOTROS</span>
             </h1>
@@ -94,7 +98,7 @@ export const Contact = () => {
                   name="ct_nombre"
                   type="text"
                   placeholder="Tu nombre"
-                  readOnly={user?true:false}
+                  readOnly={user ? true : false}
                 />
                 <ErrorMessage
                   name="ct_nombre"
@@ -113,7 +117,7 @@ export const Contact = () => {
                   type="text"
                   name="ct_apellido"
                   placeholder="Tu apellido"
-                  readOnly={user?true:false}
+                  readOnly={user ? true : false}
                 />
                 <ErrorMessage
                   name="ct_apellido"
@@ -173,7 +177,7 @@ export const Contact = () => {
                   name="ct_email"
                   placeholder="Tu correo"
                   type="email"
-                  readOnly={user?true:false}
+                  readOnly={user ? true : false}
                 />{" "}
                 <ErrorMessage name="ct_email" component="p" className="error" />
               </div>

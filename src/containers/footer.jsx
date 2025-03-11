@@ -14,13 +14,13 @@ export const Footer = () => {
           </p>
           <div className="footer__socials">
             <a href="#">
-              <i class="ri-facebook-fill"></i>
+              <i className="ri-facebook-fill"></i>
             </a>
             <a href="#">
-              <i class="ri-instagram-line"></i>
+              <i className="ri-instagram-line"></i>
             </a>
             <a href="#">
-              <i class="ri-twitter-fill"></i>
+              <i className="ri-twitter-fill"></i>
             </a>
           </div>
         </div>

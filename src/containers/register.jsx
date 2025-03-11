@@ -46,7 +46,6 @@ export const Register = () => {
   const confirm_register = async (values) => {
     const send = confirm("¿Desea enviar la información?");
     if (send) {
-      alert(JSON.stringify(values, null, 2));
       const data = {
         nombre: values.ct_nombre,
         apellido: values.ct_apellido,
@@ -60,7 +59,7 @@ export const Register = () => {
         password: values.ct_password,
       };
 
-      const resp = await UserRegister(data);
+      const resp = await UserRegister(data,);
       if (resp) window.location.reload();
     }
   };

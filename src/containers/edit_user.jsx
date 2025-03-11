@@ -1,6 +1,7 @@
 import { Formik, Field, ErrorMessage, Form } from "formik";
 import * as Yup from "yup";
 import {
+  delete_turn,
   getUser,
   getUserRefresh,
   send_data_edit_user,
@@ -38,7 +39,7 @@ const validationSchema = Yup.object({
 });
 
 export const Edit_user = () => {
-  const { User, refresh_user_context } = useContext(SessionContext);
+  const { User, addDays, AuthToken } = useContext(SessionContext);
   const [userTo, setUserTo] = useState(null);
   const [date, setDate] = useState("");
 
@@ -59,13 +60,10 @@ export const Edit_user = () => {
         .split("-");
       const newDate = `${day}/${month}/${year}`;
       if (newDate !== date) {
-        // Asegurarse de no hacer una actualización innecesaria
         setDate(newDate);
       }
-
-      //setDate(fe[1] + "-" + fe[2] + "-" + fe[0]); //Si no toma de cualquier forma
     }
-  }, [userTo, date]);
+  }, [userTo]);
 
   if (!userTo) {
     return <div>Cargando...</div>;
@@ -85,17 +83,16 @@ export const Edit_user = () => {
         direccion: values.ct_direccion,
         numero_documento: values.ct_documento,
       };
-      const resp = await send_data_edit_user(User.id_usuario, data);
-      if (resp) refresh_user();
+      console.log(AuthToken);
+      const resp = await send_data_edit_user(User.id_usuario, data, AuthToken);
 
+      if (+values.ct__select < userTo.id_tipo_plan) {
+        await delete_turn(userTo.id_usuario, AuthToken);
+        alert(
+          "Al cambiar de plan debera seleccionar nuevamente los horarios en que desea asistir"
+        );
+      }
     }
-  };
-
-  const refresh_user = async () => {
-    const dataUser = await getUserRefresh(User.id_usuario);
-    console.log(dataUser);
-    refresh_user_context(dataUser);
-    window.location.reload();
   };
 
   const handleDateChange = (date) => {

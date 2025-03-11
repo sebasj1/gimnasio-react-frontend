@@ -1,47 +1,44 @@
 import { useContext, useEffect } from "react";
 import { SessionContext } from "./context/session";
 
-export const UserRegister = (data) => {
-  return fetch("http://localhost:3000/auth/registro", {
-    method: "POST", // Define que es una solicitud POST
-    headers: {
-      "Content-Type": "application/json", // Especificamos que el cuerpo es JSON
-    },
-    body: JSON.stringify(data), // Convertimos el objeto `data` a una cadena JSON
-  })
-    .then((response) => response.json()) // Convierte la respuesta en formato JSON
-    .then((data) => {
-      if (data.error) {
-        alert(data.error);
-        return false;
-      } else {
-        alert(data.message);
-        return true;
-      } // Manejo de la respuesta exitosa
-    })
-    .catch((error) => {
-      console.error("Error:", error); // Manejo de errores
+export const UserRegister = async (data) => {
+  try {
+    const response = await fetch("http://localhost:3000/auth/registro", {
+      method: "POST", // Define que es una solicitud POST
+      headers: {
+        "Content-Type": "application/json", //  el cuerpo es JSON
+      },
+      body: JSON.stringify(data), // Convertimos  a una cadena JSON
     });
+    if (!response.ok) {
+      alert("No se ha podido registrar");
+      throw new Error("Error al registrar");
+    }
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    throw new Error(error);
+  }
 };
+
 export const UserLogin = async (data) => {
   try {
     const response = await fetch("http://localhost:3000/auth/login", {
-      method: "POST", // Define que es una solicitud POST
+      method: "POST",
       headers: {
-        "Content-Type": "application/json", // Especificamos que el cuerpo es JSON
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(data), // Convertimos el objeto `data` a una cadena JSON
+      body: JSON.stringify(data),
     });
 
     // Verifica si la respuesta es exitosa
     if (!response.ok) {
-      throw new Error(`Error: ${response.status} - ${response.statusText}`);
+      alert("Credenciales invalidas");
     }
-
     const result = await response.json();
-    return result; // Retorna los datos del usuario o el token, dependiendo de lo que te devuelva la API
+    return result; // Retorna los datos del usuario y el token
   } catch (error) {
-    throw new Error("Ha ocurrido un error", error); // Si deseas que el error se propague
+    throw new Error(error);
   }
 };
 
@@ -49,134 +46,152 @@ export const getUser = async (id) => {
   try {
     const response = await fetch(`http://localhost:3000/usuarios/${id}`);
 
-    // Verifica si la respuesta es exitosa (status 200)
     if (!response.ok) {
       throw new Error(`Error: ${response.statusText}`);
     }
 
-    // Convierte la respuesta a JSON
     const data = await response.json();
 
-    // Devuelve los datos
     return data;
   } catch (error) {
-    console.error("Error:", error); // Manejo de errores
-    throw error; // Re-lanza el error si lo necesitas
+    throw new Error(error);
   }
 };
 
-export const getUserRefresh = async (id) => {
+export const getUserRefresh = async (id, token) => {
   try {
     const response = await fetch(
-      `http://localhost:3000/usuarios/refresh/${id}`
+      `http://localhost:3000/usuarios/refresh/${id}`,
+      {
+        method: "GET", // Método GET (por defecto, pero se incluye para mayor claridad)
+        headers: {
+          Authorization: `Bearer ${token}`, // Aquí estamos agregando el token en los headers
+        },
+      }
     );
 
-    // Verifica si la respuesta es exitosa (status 200)
     if (!response.ok) {
-      throw new Error(`Error: ${response.statusText}`);
+      throw new Error("Ha ocurrido un error");
     }
 
-    // Convierte la respuesta a JSON
     const data = await response.json();
 
-    // Devuelve los datos
     return data;
   } catch (error) {
-    console.error("Error:", error); // Manejo de errores
-    throw error; // Re-lanza el error si lo necesitas
+    throw new Error(error);
   }
 };
-export const send_data_edit_user = async (id, data) => {
+
+export const send_data_edit_user = async (id, data, token) => {
   try {
     const response = await fetch(`http://localhost:3000/usuarios/${id}`, {
-      method: "PUT", // Define que es una solicitud PUT
+      method: "PUT",
       headers: {
-        "Content-Type": "application/json", // Especificamos que el cuerpo es JSON
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(data), // Convertimos el objeto `data` a una cadena JSON
+      body: JSON.stringify(data),
     });
 
-    const result = await response.json(); // Obtener el cuerpo de la respuesta en formato JSON
+    const result = await response.json();
 
     if (result.affectedRows === 0) {
-      return false; // Devolver false si no hubo cambios
+      return false;
     } else {
-      alert(result.message); // Mostrar mensaje de éxito
-      return true; // Devolver true si la actualización fue exitosa
+      alert(result.message);
+      return true;
     }
   } catch (error) {
-    console.error("Error al actualizar usuario:", error);
-    return false; // Devolver false si ocurre un error durante la solicitud
+    throw new Error(error);
   }
 };
+
 export const send_message = async (data) => {
-  await fetch("http://localhost:3000/mensajes/", {
-    method: "POST", // Define que es una solicitud POST
-    headers: {
-      "Content-Type": "application/json", // Especificamos que el cuerpo es JSON
-    },
-    body: JSON.stringify(data), // Convertimos el objeto `data` a una cadena JSON
-  })
-    .then((response) => response.json()) // Convierte la respuesta en formato JSON
-    .then((data) => {
-      alert(data.message);
-      return true;
-    })
-    .catch((error) => {
-      throw new Error(error); // Manejo de errores
-    });
-};
-
-export const create_turn = async (data) => {
-  await fetch("http://localhost:3000/turnos/", {
-    method: "POST", // Define que es una solicitud POST
-    headers: {
-      "Content-Type": "application/json", // Especificamos que el cuerpo es JSON
-    },
-    body: JSON.stringify(data), // Convertimos el objeto `data` a una cadena JSON
-  })
-    .then((response) => response.json()) // Convierte la respuesta en formato JSON
-    .then((data) => {
-      
-      return ;
-    })
-    .catch((error) => {
-      throw new Error(error); // Manejo de errores
-    });
-};
-
-export const delete_turn = async (id) => {
-  await fetch(`http://localhost:3000/turnos/${id}`, {
-    method: "DELETE", // Tipo de solicitud HTTP
-    headers: {
-      "Content-Type": "application/json", // Tipo de contenido
-      //  Authorization: "Bearer " + token, // Si necesitas un token de autenticación
-    },
-  })
-    .then((response) => {
-      if (response.ok) {
-        return;
-        // Actualizar UI para reflejar la eliminación (por ejemplo, eliminar el producto de la lista en la interfaz)
-      } else {
-        return;
-      }
-    })
-    .catch((error) => console.error("Error de red:", error));
-};
-
-export const get_turn = async (id) => {
   try {
-    const response = await fetch(`http://localhost:3000/turnos/${id}`);
+    const response = await fetch("http://localhost:3000/mensajes/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      alert(errorData.message);
+    }
+    const responseData = await response.json();
+    alert(responseData.message);
+
+    return responseData; //Devolver los datos recibidos
+  } catch (error) {
+    alert("Ha ocurrido un error al enviar el mensaje.");
+    throw error;
+  }
+};
+
+export const create_turn = async (data, token) => {
+  try {
+    await fetch("http://localhost:3000/turnos/", {
+      method: "POST", // Define que es una solicitud POST
+      headers: {
+        "Content-Type": "application/json", // Especificamos que el cuerpo es JSON
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data), // Convertimos el objeto `data` a una cadena JSON
+    })
+      .then((response) => response.json()) // Convierte la respuesta en formato JSON
+      .then((data) => {
+        return;
+      })
+      .catch((error) => {
+        throw new Error(error);
+      });
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+export const delete_turn = async (id, token) => {
+  try {
+    await fetch(`http://localhost:3000/turnos/${id}`, {
+      method: "DELETE", // Tipo de solicitud HTTP
+      headers: {
+        "Content-Type": "application/json", // Tipo de contenido
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return;
+          // Actualizar UI para reflejar la eliminación (por ejemplo, eliminar el producto de la lista en la interfaz)
+        } else {
+          return;
+        }
+      })
+      .catch((error) => console.error("Error de red:", error));
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+export const get_turn = async (id, token) => {
+  try {
+    const response = await fetch(`http://localhost:3000/turnos/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json", // Tipo de contenido
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     if (!response.ok) {
-      throw new Error(`Error: ${response.statusText}`);
+      throw new Error(`Error, no se puede obtener los datos`);
     }
 
     const data = await response.json();
 
     return data;
   } catch (error) {
-    console.error("Error:", error);
-    throw error;
+    throw new Error(error);
   }
 };

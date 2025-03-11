@@ -29,6 +29,7 @@ export const Navbar = () => {
     if (end) {
       context.logOut();
       navigate("/iniciarSesion");
+      setSelected("inicio");
     } else {
       return;
     }

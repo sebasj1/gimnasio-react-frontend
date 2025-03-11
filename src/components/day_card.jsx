@@ -4,10 +4,10 @@ import { SessionContext } from "../context/session";
 export const Day_card = ({ day, open, close }) => {
   let hour = Number(open);
   const hours = [];
-  const { addDay, User } = useContext(SessionContext);
+  const { addDay, User, daysChoosen } = useContext(SessionContext);
   const numberSelect = User ? User.id_tipo_plan : 1;
 
-  const sum = (e) => {
+  const addToDaysChoosen = (e) => {
     let allDay = document.querySelector(`#${e.target.dataset.day}`);
     let hoursOfDay = allDay.querySelectorAll(".resaltar");
     e.target.classList.toggle("resaltar");
@@ -18,14 +18,6 @@ export const Day_card = ({ day, open, close }) => {
         hoursOfDay[hoursOfDay.length - 1].classList.remove("resaltar");
       }
     }
-    allDay = document.querySelector(`#${e.target.dataset.day}`);
-    hoursOfDay = allDay.querySelectorAll(".resaltar");
-    console.log(allDay);
-    console.log(hoursOfDay);
-    regDays();
-  };
-
-  const regDays = () => {
     let allDays = document.querySelectorAll(".resaltar");
     let selectedDays = {};
     allDays.forEach((el) => {
@@ -38,14 +30,16 @@ export const Day_card = ({ day, open, close }) => {
     });
     addDay(selectedDays);
   };
+
   while (hour <= Number(close)) {
     hours.push(
-      <p className="" id={day + hour} data-day={day} onClick={sum}>
+      <p className="" key={day+hour} id={day + hour} data-day={day} onClick={addToDaysChoosen}>
         {hour}:00
       </p>
     );
     hour++;
   }
+
   return (
     <div>
       <button className=" btnDia">{day}</button>

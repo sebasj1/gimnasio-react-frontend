@@ -1,7 +1,6 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Day_card } from "../components/day_card";
 import { SessionContext } from "../context/session";
-import { object } from "yup";
 import { create_turn, delete_turn, get_turn } from "../handler_api";
 
 const days = [
@@ -15,7 +14,19 @@ const days = [
 ];
 
 export const Calendary = () => {
-  const { daysChoosen, User } = useContext(SessionContext);
+  const { daysChoosen, User, addDay, AuthToken } = useContext(SessionContext);
+  //A grandes rasgos obtengo todos los dias registrados en la bd y los resalto si estan elegidos,mostrando una vision actualizada del horario
+  useEffect(() => {
+    let allDays = document.querySelector("#diasSemana");
+    if (daysChoosen.length > 0) {
+      daysChoosen.forEach((elem) => {
+        const dia = allDays.querySelector(
+          `#${elem.dia}${elem.hora.substring(0, 2)}` //busco por id a los dias y horarios registrados
+        );
+        dia.classList.add("resaltar");
+      });
+    }
+  }, []);
 
   return (
     <>
@@ -33,6 +44,15 @@ export const Calendary = () => {
             uno de ellos diseñado para satisfacer diferentes preferencias y
             aspiraciones de acondicionamiento físico.
           </p>
+          <h4>
+            De a cuerdo a la membresía podes elegir multiples horas para
+            continuar ejercitandote
+          </h4>
+          <ul>
+            <li>Básico : 1 hora por día</li>
+            <li>PRO : Hasta 2 hora por día</li>
+            <li>ELITE : Hasta 3 hora por día</li>
+          </ul>
         </div>
       </header>
 
@@ -40,8 +60,6 @@ export const Calendary = () => {
         <div className="col-12 form__agenda">
           <div className="ag_datosUsuario">
             <label>Elige el horario que mejor se acomode a tu rutina.: </label>
-
-            <p className="saludoUser"></p>
           </div>
           <div className="row agendaSemana" id="diasSemana">
             {days.map((elem, index) => {
@@ -58,21 +76,31 @@ export const Calendary = () => {
         </div>
         <button
           onClick={async () => {
-            const id_user = User.id_usuario;
-            delete_turn(id_user);
-            const aa = await get_turn(id_user);
-            console.log(aa);
-            Object.keys(daysChoosen.obj).forEach((element) => {
-              console.log(element, daysChoosen.obj[element]);
-              daysChoosen.obj[element].forEach((el) => {
-                const data = {
-                  dia: element,
-                  hora: el,
-                  id_usuario: id_user,
-                };
-                create_turn(data);
+            const resp = confirm("Se actualizaran los horarios");
+            if (resp) {
+              const id_user = User.id_usuario;
+              // Espera a que se resuelva la promesa de delete_turn
+              await delete_turn(id_user, AuthToken);
+
+              // Crear nuevos turnos
+              const promises = Object.keys(daysChoosen).map((element) => {
+                return Promise.all(
+                  daysChoosen[element].map((el) => {
+                    const data = {
+                      dia: element,
+                      hora: el,
+                      id_usuario: id_user,
+                    };
+                    return create_turn(data, AuthToken);
+                  })
+                );
               });
-            });
+
+              //esperar a que todas las promesas de create_turn se resuelvan
+              await Promise.all(promises);
+              const get = await get_turn(id_user, AuthToken);
+              addDay(get);
+            }
           }}
           className="btn centrar "
           hidden

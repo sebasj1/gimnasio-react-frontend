@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import { get_turn, getUserRefresh } from "../handler_api";
 
 export const SessionContext = createContext();
 
@@ -7,30 +8,45 @@ export const SessionProvider = ({ children }) => {
   const [User, setUser] = useState(null);
   const [isRegister, setIsRegister] = useState(false);
   const [daysChoosen, setDaysChoosen] = useState({});
+
   useEffect(() => {
     //obtener si ya hay sesion iniciada
+    if (User) {
+      const load = async () => {
+        try {
+          // Espera a que se resuelva la promesa de get_turn
+
+          const id = JSON.parse(User).id_usuario;
+          const new_user = await getUserRefresh(id, AuthToken);
+
+          setUser(new_user);
+          setIsRegister(true);
+
+          const get = await get_turn(id,AuthToken);
+          // Pasa el resultado a la función addDay
+          Object.keys(get).map((key) => ({ [key]: get[key] }));
+          setDaysChoosen(get);
+        } catch (error) {
+          console.error("Error al cargar datos:", error);
+        }
+      };
+
+      load();
+    }
+  }, [AuthToken]);
+
+  useEffect(() => {
     const tokenLS = localStorage.getItem("AuthToken");
     const userLS = localStorage.getItem("User");
+
     if (userLS != null) {
-      try {
-        setAuthToken(tokenLS);
-        setUser(JSON.parse(userLS));
-        setIsRegister(true);
-      } catch (error) {
-        throw error;
-      }
+      setAuthToken(tokenLS);
+      setUser(userLS);
     }
   }, []);
 
-  const refresh_user_context = (user) => {
-    localStorage.setItem("User", JSON.stringify(user));
-
-    setUser(user);
-    setIsRegister(true);
-  };
-
   const login_context = (user, token) => {
-    localStorage.setItem("AuthToken", AuthToken);
+    localStorage.setItem("AuthToken", token);
     localStorage.setItem("User", JSON.stringify(user));
     setAuthToken(token);
     setUser(user);
@@ -46,10 +62,9 @@ export const SessionProvider = ({ children }) => {
   };
 
   const addDay = (obj) => {
-    setDaysChoosen({
-      obj,
-    });
+    setDaysChoosen(obj);
   };
+
   return (
     <SessionContext.Provider
       value={{
@@ -61,7 +76,6 @@ export const SessionProvider = ({ children }) => {
         addDay,
         daysChoosen,
         setDaysChoosen,
-        refresh_user_context,
       }}
     >
       {children}

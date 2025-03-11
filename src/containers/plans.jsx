@@ -47,7 +47,7 @@ export const Plans = () => {
     <>
       <section className="section__container price__container" id="planes">
         {/*<!-- Sección de precios -->*/}
-        <h2 class="section__header">PRECIOS DE NUESTROS PLANES</h2>
+        <h2 className="section__header">PRECIOS DE NUESTROS PLANES</h2>
         <p className="section__subheader">
           Nuestro plan de precios viene con varios niveles de membresía, cada
           uno de ellos diseñado para satisfacer diferentes preferencias y

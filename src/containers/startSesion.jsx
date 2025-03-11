@@ -28,8 +28,6 @@ export const StartSession = () => {
         });
         if (dataUser.dataUser) {
           login_context(dataUser.dataUser, dataUser.token);
-        } else {
-          alert(dataUser.message);
         }
       }}
     >
