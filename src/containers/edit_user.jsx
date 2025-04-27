@@ -55,16 +55,9 @@ export const Edit_user = () => {
 
   useEffect(() => {
     if (userTo && userTo.fecha_nacimiento) {
-      const [day, month, year] = userTo.fecha_nacimiento
-        .substring(0, 10)
-        .split("-");
-      const newDate = `${day}/${month}/${year}`;
-      if (newDate !== date) {
-        setDate(newDate);
-      }
+      setDate(new Date(userTo.fecha_nacimiento));
     }
   }, [userTo]);
-
   if (!userTo) {
     return <div>Cargando...</div>;
   }
@@ -79,7 +72,7 @@ export const Edit_user = () => {
         email: values.ct_email,
         id_tipo_plan: values.ct__select,
         id_tipo_usuario: 1,
-        fecha_nacimiento: date,
+        fecha_nacimiento: date.toISOString().split("T")[0], 
         direccion: values.ct_direccion,
         numero_documento: values.ct_documento,
       };
@@ -95,9 +88,10 @@ export const Edit_user = () => {
     }
   };
 
-  const handleDateChange = (date) => {
-    setDate(date.toLocaleDateString("eu-CA"));
-  };
+  const handleDateChange = (selectedDate) => {
+    setDate(selectedDate); 
+    };
+
   return (
     <Formik
       initialValues={{
@@ -244,8 +238,8 @@ export const Edit_user = () => {
                     name="ct_fecha"
                     onChange={handleDateChange}
                     value={date}
-                    view="month" // Muestra el calendario mensual
-                    showNeighboringMonth={false} // Ocultar los días del mes anterior y siguiente
+                    view="month"
+                    showNeighboringMonth={false}
                   />
                 </div>
               </div>

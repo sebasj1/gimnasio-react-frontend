@@ -19,9 +19,9 @@ export const Header = () => {
           <button className="btn">Iniciar</button>
         </div>
         {/* <!-- Imagen del encabezado -->*/}
-        <div className="header__image">
-          <img src="assets/hader.png" alt="header" />
-        </div>
+        {/*<div className="header__image">
+          <img src="assets/header.png" alt="header" />
+  </div>*/}
       </header>
     </>
   );

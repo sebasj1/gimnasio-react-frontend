@@ -6,7 +6,7 @@ export const Footer = () => {
         <span className="bg__blur footer__blur"></span>
         <div className="footer__col">
           <div className="footer__logo">
-            <img src="assets/logo.png" alt="logo" />
+            <img src="/assets/img/logo.png" alt="logo" />
           </div>
           <p>
             Dá el primer paso hacia una persona más sana y fuerte con nuestros

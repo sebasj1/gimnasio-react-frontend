@@ -1,10 +1,9 @@
-import { useContext, useEffect, useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import {  useEffect } from "react";
+
 import { Navbar } from "./components/navbar";
 import { Header } from "./containers/header";
 import { Program_container } from "./containers/program_container";
-import { Helmet } from "react-helmet";
+
 import Head from "./components/head";
 import { Personalized } from "./containers/personalized";
 import { Plans } from "./containers/plans";
@@ -13,7 +12,6 @@ import { Copyright } from "./components/copyright";
 import {
   BrowserRouter as Router,
   Route,
-  Link,
   Routes,
   Navigate,
 } from "react-router-dom";

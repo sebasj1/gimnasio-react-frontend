@@ -40,7 +40,7 @@ export const Navbar = () => {
     <nav className="menu">
       <div className="nav__logo">
         <a href="#">
-          <img src="/src/assets/img/logo.png" alt="logo" />
+          <img src="/assets/img/logo.png" alt="logo" />
         </a>
       </div>
       {context.isRegister ? (

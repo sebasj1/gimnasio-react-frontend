@@ -233,8 +233,8 @@ export const Register = () => {
                     className="start_session_btn_pw "
                     src={
                       type_pw === "password"
-                        ? "./src/assets/img/eye_visible.png"
-                        : "./src/assets/img/eye_hide.png"
+                        ? "/assets/img/eye_visible.png"
+                        : "/assets/img/eye_hide.png"
                     }
                   />
                 </button>
@@ -266,8 +266,8 @@ export const Register = () => {
                     className="start_session_btn_pw "
                     src={
                       type_pw2 === "password"
-                        ? "./src/assets/img/eye_visible.png"
-                        : "./src/assets/img/eye_hide.png"
+                        ? "/assets/img/eye_visible.png"
+                        : "/assets/img/eye_hide.png"
                     }
                   />
                 </button>

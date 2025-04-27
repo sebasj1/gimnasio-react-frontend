@@ -3,7 +3,6 @@ import { useContext, useState } from "react";
 import * as Yup from "yup";
 import { UserLogin } from "../handler_api";
 import { SessionContext } from "../context/session";
-import { useNavigate } from "react-router-dom";
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -74,8 +73,8 @@ export const StartSession = () => {
                     className="start_session_btn_pw "
                     src={
                       type_pw === "password"
-                        ? "./src/assets/img/eye_visible.png"
-                        : "./src/assets/img/eye_hide.png"
+                        ? "/assets/img/eye_visible.png"
+                        : "/assets/img/eye_hide.png"
                     }
                   />
                 </button>

@@ -50,8 +50,8 @@ export const Calendary = () => {
           </h4>
           <ul>
             <li>Básico : 1 hora por día</li>
-            <li>PRO : Hasta 2 hora por día</li>
-            <li>ELITE : Hasta 3 hora por día</li>
+            <li>PRO : Hasta 2 horas por día</li>
+            <li>ELITE : Hasta 3 horas por día</li>
           </ul>
         </div>
       </header>
